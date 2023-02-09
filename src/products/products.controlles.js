@@ -1,3 +1,5 @@
+const Products = require('../models/products.models')
+
 const productDB = [
     {
         id: 1,
@@ -16,12 +18,22 @@ const productDB = [
 let baseID = 3
 
 const findAllProducts = async () => {
-    return await productDB
+    // return await productDB
+
+    const data = await Products.findAll()
+    return data
 }
 
 const findProductById = async (id) => {
-    const productFilter = await productDB.find(product => product.id === id)
-    return productFilter
+    // const productFilter = await productDB.find(product => product.id === id)
+    // return productFilter
+
+    const data = await Products.findOne({
+        where: {
+            id: id
+        }
+    })
+    return data
 }
 
 // const findProductByIdWithPromises = (id) => {
@@ -36,19 +48,46 @@ const findProductById = async (id) => {
 // }
 
 const CreateNewProduct = async (prodObj) => {
+    // const newProduct = {
+    //     id: baseID++,
+    //     title: prodObj.title,
+    //     price: prodObj.price,
+    //     img_url: prodObj.img_url
+    // }
+    // await productDB.push(newProduct)
+    // return newProduct
+
     const newProduct = {
-        id: baseID++,
         title: prodObj.title,
         price: prodObj.price,
-        img_url: prodObj.img_url
+        imageUrl: prodObj.imageUrl
     }
-    await productDB.push(newProduct)
-    return newProduct
+
+    const data = await Products.create(newProduct)
+    return data
+}
+
+const UpdateProduct = async (id, productObj) => {
+    const data = await Products.update(productObj, {
+        id: id
+    })
+    return data
+}
+
+const deleteProducts = async (id) => {
+    const data = await Products.destroy({
+        where: {
+            id: id
+        }
+    })
+    return data
 }
 
 
 module.exports = {
     findAllProducts,
     findProductById,
-    CreateNewProduct
+    CreateNewProduct,
+    UpdateProduct,
+    deleteProducts
 }

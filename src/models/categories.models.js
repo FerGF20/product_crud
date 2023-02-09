@@ -1,24 +1,16 @@
 const { DataTypes } = require('sequelize')
 const db = require('../utils/database')
 
-const Products = db.define('products', {
+const Categories = db.define('categories', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    title: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    price: {
-        type: DataTypes.DECIMAL,
-        allowNull: false
-    },
-    imageUrl: {
-        type: DataTypes.STRING,
-        allowNull: false
     }
 })
 
-module.exports = Products
+module.exports = Categories
