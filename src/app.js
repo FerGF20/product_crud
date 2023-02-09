@@ -1,16 +1,33 @@
 // Dependencies
 const express = require('express')
 const productRouter = require('./products/products.router')
+const db = require('./utils/database')
 
 // Initial configs
 const app = express()
 app.use(express.json())
 
-// Get info or data of client
+db.authenticate() // Mostrar en consola de manera informativa si la conexion se hizo de manera correcta
+    .then(() => {
+        console.log('Las credenciales de la base de dato son correctas')
+    })
+    .catch(err => {
+        console.log(err)
+    })
 
+db.sync() // Sincronizar nuestra base de datos con los modelos que tenemos definidos
+    .then(() => {
+        console.log('La base de datos se sincronizo correctamente')
+    })
+    .catch(err => {
+        console.log(err)
+    }) 
+
+// Get info or data of client
 app.get('/', (req, res) => {
     res.json({
-        message: "Server Ok!"
+        message: "Server Ok!",
+        password: process.env.MY_PASSWORD
     })
 })
 
