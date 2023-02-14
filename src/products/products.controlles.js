@@ -1,26 +1,17 @@
 const Products = require('../models/products.models')
-
-const productDB = [
-    {
-        id: 1,
-        title: "Xbox 360",
-        price: "600 USD",
-        img_url: "https://images-na.ssl-images-amazon.com/images/I/61zjj2sgXML._SL1500_.jpg"
-    },
-    {
-        id: 2,
-        title: "Play 5",
-        price: "600 USD",
-        img_url: "https://images-na.ssl-images-amazon.com/images/I/61zjj2sgXML._SL1500_.jpg"
-    }
-]
-
-let baseID = 3
+const Categories = require('../models/categories.models')
 
 const findAllProducts = async () => {
     // return await productDB
 
-    const data = await Products.findAll()
+    const data = await Products.findAll({
+        attributes: ['id', 'title', 'price', 'imageUrl'],
+
+        include: {
+            model: Categories,
+            attributes: ['id', 'name']
+        }
+    })
     return data
 }
 
@@ -69,9 +60,11 @@ const CreateNewProduct = async (prodObj) => {
 
 const UpdateProduct = async (id, productObj) => {
     const data = await Products.update(productObj, {
-        id: id
+        where: {
+            id: id
+        }
     })
-    return data
+    return data[0]
 }
 
 const deleteProducts = async (id) => {

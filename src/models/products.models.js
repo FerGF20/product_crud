@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 const db = require('../utils/database')
+const Categories = require('./categories.models')
 
 const Products = db.define('products', {
     id: {
@@ -18,6 +19,14 @@ const Products = db.define('products', {
     imageUrl: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Categories,
+            key: 'id'
+        }
     }
 })
 

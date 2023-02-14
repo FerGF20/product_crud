@@ -2,9 +2,11 @@
 const express = require('express')
 const productRouter = require('./products/products.router')
 const db = require('./utils/database')
+const initModels = require('./models/initModels')
 
 // Initial configs
 const app = express()
+
 app.use(express.json())
 
 db.authenticate() // Mostrar en consola de manera informativa si la conexion se hizo de manera correcta
@@ -21,7 +23,9 @@ db.sync() // Sincronizar nuestra base de datos con los modelos que tenemos defin
     })
     .catch(err => {
         console.log(err)
-    }) 
+    })
+
+initModels()
 
 // Get info or data of client
 app.get('/', (req, res) => {
